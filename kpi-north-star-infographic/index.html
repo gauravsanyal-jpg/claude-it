@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From 40 Metrics to 8 — KPI Dashboard Motion Infographic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#15607c; --teal-d:#0f4b62; --gold:#e3a33e; --cream:#f3efe3; --ink:#10202a;
+  --mute:#a9c6d2; --line:rgba(255,255,255,.16); --cyan:#8fbccb;
+  --green:#3fb37a; --amber:#e3a33e; --red:#d9534f; --paper:#fbf9f3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.kicker{font:600 13px/1 Inter;letter-spacing:.2em;text-transform:uppercase}
+section{position:relative;padding:96px 0}
+h2{font:400 clamp(34px,5vw,52px)/1.12 'Playfair Display',serif;margin:14px 0 18px}
+.lede{font:400 clamp(17px,2vw,20px)/1.6 Inter;max-width:680px;margin:0}
+.step{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--ink);font:700 15px Inter;margin-right:12px;flex:none}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}.rv.d4{transition-delay:.48s}
+
+/* ---------- HERO / SCENE ---------- */
+.hero{background:var(--teal);color:#fff;padding:84px 0 96px;overflow:hidden}
+.hero .kicker{color:var(--mute)}
+.hero h1{font:400 clamp(40px,6.4vw,74px)/1.08 'Playfair Display',serif;margin:18px 0 22px;max-width:860px}
+.hero h1 em{color:var(--gold)}
+.scene{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;margin-top:48px}
+.scene-copy p{font:400 clamp(20px,2.4vw,26px)/1.5 'Playfair Display',serif;margin:0 0 14px;color:#e4eef2}
+.scene-copy p b{font-weight:400;color:#fff}
+.scene-copy p.g{color:var(--gold);font-style:italic}
+.tiles{position:relative;display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.tile{aspect-ratio:1.25;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);position:relative;overflow:hidden}
+.tile svg{position:absolute;left:12%;right:12%;bottom:18%;width:76%;height:42%}
+.tile i{position:absolute;left:12%;top:14%;width:44%;height:9%;border-radius:3px;background:rgba(255,255,255,.35)}
+.counter{display:flex;align-items:baseline;gap:14px;margin-top:22px}
+.counter .n{font:400 88px/1 'Playfair Display',serif;color:var(--gold);min-width:1.3em;font-variant-numeric:tabular-nums}
+.counter .l{font:600 13px Inter;letter-spacing:.18em;color:var(--mute);text-transform:uppercase}
+.eye{display:inline-flex;align-items:center;gap:8px;font:500 13px Inter;color:var(--mute);margin-top:14px}
+
+/* ---------- PROMPT ANATOMY ---------- */
+.anat{background:var(--cream)}
+.anat .kicker{color:var(--teal)}
+.block{background:#fff;border:1px solid #e6e0d0;border-radius:22px;padding:34px;margin-top:28px;box-shadow:0 14px 40px rgba(16,32,42,.06)}
+.block-h{display:flex;align-items:center;margin-bottom:6px}
+.block-h h3{font:600 22px/1.2 Inter;margin:0}
+.block .q{font:400 15px/1.6 'JetBrains Mono',monospace;color:#4f6670;margin:10px 0 24px;padding-left:46px}
+.block .q mark{background:none;color:#b77818}
+
+/* BSC */
+.bsc-row{display:grid;grid-template-columns:1fr 1.1fr;gap:34px;align-items:center}
+.role{display:flex;gap:16px;align-items:center;padding:18px 20px;border-radius:16px;background:var(--paper);border:1px dashed #d9d1bd}
+.role .av{width:54px;height:54px;border-radius:50%;background:var(--ink);display:grid;place-items:center;flex:none}
+.role b{display:block;font:600 16px Inter}
+.role span{font:400 14px Inter;color:#5a6a72}
+.slot{margin-top:16px;font:500 15px Inter;color:#5a6a72}
+.slot .sv{display:inline-block;min-width:13ch;padding:6px 12px;border-radius:8px;background:rgba(227,163,62,.15);color:#a86d12;font:500 15px 'JetBrains Mono',monospace}
+.slot .sv::after{content:"";display:inline-block;width:2px;height:1em;background:#a86d12;vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
+.qd{border-radius:16px;padding:20px 18px;min-height:112px;background:#f4f1e8;border:2px solid transparent;transition:all .45s ease}
+.qd .ic{font-size:22px}
+.qd b{display:block;font:600 16px Inter;margin-top:8px}
+.qd span{font:400 13px Inter;color:#6a7a82}
+.qd.on{background:var(--teal);color:#fff;border-color:var(--teal);transform:scale(1.03);box-shadow:0 10px 28px rgba(21,96,124,.25)}
+.qd.on span{color:#cfe0e7}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rule{background:var(--paper);border:1px solid #ebe5d6;border-radius:18px;padding:20px 18px 22px;display:flex;flex-direction:column}
+.rule .viz{height:150px;position:relative;margin-bottom:16px}
+.rule b{font:600 16px/1.3 Inter}
+.rule span{font:400 13.5px/1.45 Inter;color:#5d6d75;margin-top:6px}
+/* rule1 slots */
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:absolute;left:0;right:0;top:8px}
+.slots div{height:30px;border-radius:6px;border:1.5px dashed #cfc6b0;transition:all .25s}
+.slots div.f{background:var(--teal);border:1.5px solid var(--teal)}
+.ninth{position:absolute;left:50%;bottom:4px;width:62px;height:30px;margin-left:-31px;border-radius:6px;background:#cfc6b0;display:grid;place-items:center;font:700 13px Inter;color:#fff}
+/* rule2 toggle */
+.tog{position:absolute;inset:4px 0 auto;display:flex;flex-direction:column;gap:8px}
+.tg{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px 10px;border-radius:10px;background:#fff;border:1px solid #ebe5d6;font:500 12.5px Inter;white-space:nowrap;transition:all .35s}
+.tg .pill{font:700 10px Inter;letter-spacing:.1em;padding:4px 8px;border-radius:20px;transition:all .35s}
+.pill.lead{background:rgba(21,96,124,.12);color:var(--teal)}
+.pill.lag{background:rgba(227,163,62,.2);color:#a86d12}
+/* rule3 gauge */
+.gauge{position:absolute;left:50%;top:6px;width:170px;margin-left:-85px}
+.gstat{position:absolute;left:0;right:0;bottom:0;text-align:center;font:700 11px Inter;letter-spacing:.12em}
+/* rule4 decision */
+.dec{position:absolute;inset:4px 0 auto;display:flex;flex-direction:column;gap:10px}
+.dr{display:flex;align-items:center;gap:6px;font:500 11.5px Inter;transition:all .5s}
+.dr .m{padding:8px 8px;border-radius:8px;background:#fff;border:1px solid #ebe5d6;white-space:nowrap}
+.dr .ar{flex:1;min-width:12px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold)) no-repeat 0 0/0% 100%;position:relative}
+.dr .d{padding:8px 8px;border-radius:8px;background:var(--ink);color:#fff;white-space:nowrap;opacity:0;transition:opacity .4s}
+.dr.bad .m{border-color:#f0c4c2}
+.dr.bad .d{background:#fff;color:var(--red);border:1px dashed var(--red)}
+
+/* tree */
+.tree-row{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center}
+.tree svg{width:100%;height:auto;display:block}
+.tree-notes div{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+.tree-notes .sw{width:16px;height:16px;border-radius:50%;flex:none;margin-top:3px}
+.tree-notes b{display:block;font:600 16px Inter}
+.tree-notes span{font:400 14px/1.5 Inter;color:#5d6d75}
+
+/* ask first */
+.ask-row{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+.chat{display:flex;flex-direction:column;gap:12px}
+.bub{align-self:flex-start;max-width:92%;padding:14px 16px;border-radius:16px 16px 16px 4px;background:var(--ink);color:#fff;font:400 15px/1.45 Inter;opacity:0;transform:translateY(10px) scale(.97);transition:all .45s cubic-bezier(.2,.8,.2,1)}
+.bub.show{opacity:1;transform:none}
+.bub small{display:block;font:600 10px Inter;letter-spacing:.14em;color:var(--gold);margin-bottom:4px}
+.typing{align-self:flex-start;display:flex;gap:5px;padding:14px 16px;border-radius:16px;background:#e9e4d6}
+.typing i{width:7px;height:7px;border-radius:50%;background:#8a8f88;animation:dot 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-5px);opacity:1}}
+.chips h4{font:600 12px Inter;letter-spacing:.16em;color:#7a8a92;text-transform:uppercase;margin:4px 0 10px}
+.chipset{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{padding:9px 14px;border-radius:30px;border:1.5px solid #ddd5c2;font:500 14px Inter;color:#4a5a62;transition:all .35s}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.why{padding:16px 18px;border-radius:14px;background:rgba(227,163,62,.12);font:400 14.5px/1.5 Inter;color:#6b4a12}
+.why b{font-weight:600}
+
+/* full prompt */
+.full{background:var(--ink);color:#eef3f5;border-radius:22px;margin-top:28px;overflow:hidden}
+.full-h{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08)}
+.full-h .kicker{color:var(--gold)}
+.dots3{display:flex;gap:7px}.dots3 i{width:11px;height:11px;border-radius:50%;background:#2b3f49}
+.copy{background:none;border:1px solid #33505d;color:#fff;border-radius:8px;padding:8px 14px;font:500 13px Inter;cursor:pointer;transition:all .2s}
+.copy:hover{background:#1c3440}
+.copy.ok{border-color:var(--green);color:#9be3bd}
+.full pre{margin:0;padding:24px 26px 28px;font:400 14.5px/1.7 'JetBrains Mono',monospace;white-space:pre-wrap;color:#eef3f5}
+.full pre .c{color:var(--cyan)} .full pre .g{color:var(--gold)}
+
+/* ---------- RESULT ---------- */
+.result{background:var(--teal);color:#fff}
+.result .kicker{color:var(--mute)}
+.result .lede{color:#dbe8ee}
+.dash{margin-top:40px;background:#fff;color:var(--ink);border-radius:24px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.25)}
+.nsbar{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;background:var(--ink);color:#fff;border-radius:16px;padding:20px 26px}
+.nsbar .lab{font:700 11px Inter;letter-spacing:.2em;color:var(--gold)}
+.nsbar .nm{font:400 26px 'Playfair Display',serif}
+.nsbar svg{width:100%;height:54px}
+.nsbar .v{font:600 40px/1 Inter;text-align:right;font-variant-numeric:tabular-nums}
+.nsbar .v small{display:block;font:600 14px Inter;color:#6fd39b;margin-top:6px}
+.inputs3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;position:relative}
+.inp{border-radius:14px;padding:14px 16px;background:rgba(21,96,124,.08);border:1px solid rgba(21,96,124,.2);display:flex;justify-content:space-between;align-items:center}
+.inp b{font:600 14px Inter;color:var(--teal)} .inp span{font:600 18px Inter}
+.inp em{font-style:normal;font:700 10px Inter;letter-spacing:.12em;color:var(--teal);opacity:.7;display:block}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.col h5{margin:0 0 10px;font:700 11px Inter;letter-spacing:.16em;color:#7a8a92;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.col h5::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--teal)}
+.met{border-radius:14px;background:#f7f5ef;border:1px solid #e9e3d4;padding:14px;margin-bottom:12px;position:relative;opacity:0;transform:translateY(14px);transition:all .6s cubic-bezier(.2,.7,.2,1)}
+.met.in{opacity:1;transform:none}
+.met .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.met b{font:600 14px/1.25 Inter}
+.light{width:13px;height:13px;border-radius:50%;background:#ccc;flex:none;margin-top:2px;transition:background .4s}
+.met .row2{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+.met .val{font:600 24px Inter}
+.met .tag{font:700 9.5px Inter;letter-spacing:.12em;padding:3px 7px;border-radius:20px}
+.met .bar{height:7px;border-radius:4px;margin-top:10px;display:flex;overflow:hidden;position:relative}
+.met .bar i{display:block;height:100%}
+.met .mk{position:absolute;top:-4px;width:3px;height:15px;border-radius:2px;background:var(--ink);left:0;transition:left 1.2s cubic-bezier(.2,.7,.2,1)}
+.met .trig{margin-top:10px;font:500 12px/1.3 Inter;color:#5a6a72}
+.met.alarm{border-color:#eab0ae}
+.met.alarm .light{animation:alarm 1.2s infinite}
+.met.alarm .trig{color:#c0392b;font-weight:600}
+@keyframes alarm{0%{box-shadow:0 0 0 0 rgba(217,83,79,.55)}100%{box-shadow:0 0 0 12px rgba(217,83,79,0)}}
+.legend{display:flex;flex-wrap:wrap;gap:22px;margin-top:20px;font:500 13px Inter;color:#cfe0e7}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:11px;height:11px;border-radius:50%}
+
+/* ---------- PRO MOVE ---------- */
+.pro{background:var(--ink);color:#fff}
+.pro .kicker{color:var(--gold)}
+.pro-q{margin-top:26px;padding:26px 28px;border-left:5px solid var(--gold);background:rgba(255,255,255,.04);border-radius:0 18px 18px 0;font:400 italic clamp(20px,2.6vw,27px)/1.5 'Playfair Display',serif;color:#f3efe3;display:flex;gap:20px;align-items:flex-start;justify-content:space-between}
+.pro-q .copy{flex:none;font-style:normal}
+.memo{margin-top:34px;background:var(--paper);color:var(--ink);border-radius:22px;padding:30px;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.memo-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #e6e0d0;padding-bottom:16px;margin-bottom:22px}
+.memo-h b{font:400 26px 'Playfair Display',serif}
+.memo-h span{font:500 13px Inter;color:#7a8a92}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lane{border-radius:16px;padding:18px;background:#fff;border:1px solid #ebe5d6;min-height:250px}
+.lane h6{margin:0 0 14px;font:700 12px Inter;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.lane h6 i{width:10px;height:10px;border-radius:50%}
+.ln{font:400 14px/1.5 Inter;color:#3e4e56;margin-bottom:12px;min-height:1.5em}
+.ln .cur{display:inline-block;width:2px;height:1em;background:var(--gold);vertical-align:-2px;margin-left:1px;animation:blink 1s steps(1) infinite}
+.ln b{font-weight:600}
+
+footer{background:var(--teal);color:#fff;padding:64px 0 70px}
+footer .q{font:400 clamp(26px,3.6vw,40px)/1.25 'Playfair Display',serif;max-width:820px}
+footer .q em{color:var(--gold)}
+footer .by{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer .by b{font:400 24px 'Playfair Display',serif;display:block}
+footer .by span{font:400 14px Inter;color:var(--mute)}
+
+/* progress rail */
+#rail{position:fixed;left:0;top:0;height:4px;background:var(--gold);width:0;z-index:20}
+
+/* responsive */
+@media (max-width:860px){
+  .scene,.bsc-row,.tree-row,.ask-row{grid-template-columns:1fr}
+  .rules{grid-template-columns:1fr 1fr}
+  .cols{grid-template-columns:1fr 1fr}
+  .lanes{grid-template-columns:1fr}
+  .nsbar{grid-template-columns:1fr auto}.nsbar svg{display:none}
+  .block{padding:24px}.block .q{padding-left:0}
+}
+@media (max-width:520px){ .rules,.cols,.inputs3{grid-template-columns:1fr} .pro-q{flex-direction:column} }
+@media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition:none} *{animation:none!important} }
+</style>
+</head>
+<body>
+<div id="rail"></div>
+
+<!-- ============ HERO / THE SCENE ============ -->
+<header class="hero" id="scene">
+  <div class="wrap">
+    <div class="kicker rv">Prompting 101 · KPI Dashboards</div>
+    <h1 class="rv d1">From forty metrics to the <em>eight</em> that drive decisions.</h1>
+    <div class="scene">
+      <div class="scene-copy">
+        <div class="kicker rv d2" style="color:var(--gold);margin-bottom:18px">The scene</div>
+        <p class="rv d2">Your current dashboard has <b>40 metrics</b>.</p>
+        <p class="rv d3">Nobody looks at it.</p>
+        <p class="rv d4 g">You need the ones that actually drive decisions.</p>
+      </div>
+      <div class="rv d2">
+        <div class="tiles" id="tiles"></div>
+        <div class="counter"><span class="n" id="cnt">40</span><span class="l" id="cntl">metrics on the dashboard</span></div>
+        <div class="eye" id="eye"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span id="eyet">Viewed this week: 0</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROMPT ANATOMY ============ -->
+<section class="anat" id="prompt">
+  <div class="wrap">
+    <div class="kicker rv">The prompt · anatomy</div>
+    <h2 class="rv d1">Four moves that turn a data dump into a decision tool.</h2>
+    <p class="lede rv d2" style="color:#4a5a62">Each part of the prompt does one job. Here's what each line is doing, and why it matters.</p>
+
+    <!-- 1 role + BSC -->
+    <div class="block rv" data-anim="bsc">
+      <div class="block-h"><span class="step">1</span><h3>Give it a role and a structure</h3></div>
+      <div class="q">Act as a performance measurement expert. Design a KPI dashboard for <mark>[function / initiative]</mark> using the Balanced Scorecard structure.</div>
+      <div class="bsc-row">
+        <div>
+          <div class="role">
+            <div class="av"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e3a33e" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+            <div><b>Performance measurement expert</b><span>Thinks in decisions and thresholds, not in charts.</span></div>
+          </div>
+          <div class="slot">Dashboard for&nbsp; <span class="sv" id="slotv"></span></div>
+          <p style="font:400 14.5px/1.55 Inter;color:#5d6d75;margin:18px 0 0">The Balanced Scorecard makes the model look beyond finance, so the dashboard covers the whole business.</p>
+        </div>
+        <div class="quad" id="quad">
+          <div class="qd"><div class="ic">💰</div><b>Financial</b><span>Are we creating value?</span></div>
+          <div class="qd"><div class="ic">🤝</div><b>Customer</b><span>Do they choose us and stay?</span></div>
+          <div class="qd"><div class="ic">⚙️</div><b>Process</b><span>Are we executing well?</span></div>
+          <div class="qd"><div class="ic">🌱</div><b>Learning &amp; Growth</b><span>Can we keep improving?</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 rules -->
+    <div class="block rv" data-anim="rules">
+      <div class="block-h"><span class="step">2</span><h3>Set four non-negotiable rules</h3></div>
+      <div class="q">Max 8 metrics · leading or lagging · target, amber, red · a decision for every metric.</div>
+      <div class="rules">
+        <div class="rule">
+          <div class="viz"><div class="slots" id="slots"></div><div class="ninth" id="ninth">#9</div></div>
+          <b>Maximum 8 metrics</b><span>A hard cap forces you to rank. The ninth one doesn't get in.</span>
+        </div>
+        <div class="rule">
+          <div class="viz"><div class="tog" id="tog"></div></div>
+          <b>Leading or lagging</b><span>Leading metrics you can act on. Lagging ones only tell you what already happened.</span>
+        </div>
+        <div class="rule">
+          <div class="viz">
+            <svg class="gauge" viewBox="0 0 170 100">
+              <path d="M15 90 A70 70 0 0 1 50.0 29.4" stroke="#d9534f" stroke-width="14" fill="none"/>
+              <path d="M50.0 29.4 A70 70 0 0 1 120 29.4" stroke="#e3a33e" stroke-width="14" fill="none"/>
+              <path d="M120 29.4 A70 70 0 0 1 155 90" stroke="#3fb37a" stroke-width="14" fill="none"/>
+              <line id="needle" x1="85" y1="90" x2="85" y2="34" stroke="#10202a" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="85" cy="90" r="7" fill="#10202a"/>
+            </svg>
+            <div class="gstat" id="gstat">ON TARGET</div>
+          </div>
+          <b>Target · amber · red</b><span>Agree the thresholds in advance, so there's no arguing about what the number means.</span>
+        </div>
+        <div class="rule">
+          <div class="viz"><div class="dec" id="dec">
+            <div class="dr" id="dr1"><span class="m">Pipeline</span><span class="ar"></span><span class="d">Add SDRs</span></div>
+            <div class="dr bad" id="dr2"><span class="m">Page views</span><span class="ar"></span><span class="d">✕ none</span></div>
+            <div class="dr" id="dr3"><span class="m">NRR</span><span class="ar"></span><span class="d">Churn review</span></div>
+          </div></div>
+          <b>Every metric → a decision</b><span>If you can't name the decision it triggers, the metric comes off.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 north star -->
+    <div class="block rv" data-anim="tree">
+      <div class="block-h"><span class="step">3</span><h3>Name one North Star and the three inputs that move it</h3></div>
+      <div class="q">Define our North Star metric — the ONE number that best represents whether we're winning — and the 3 input metrics that move it.</div>
+      <div class="tree-row">
+        <div class="tree"><svg id="treesvg" viewBox="0 0 560 330"></svg></div>
+        <div class="tree-notes">
+          <div><i class="sw" style="background:var(--ink)"></i><p style="margin:0"><b>North Star</b><span>The one number that tells you whether you're winning. It's a result, so you can't move it directly.</span></p></div>
+          <div><i class="sw" style="background:var(--teal)"></i><p style="margin:0"><b>3 input metrics</b><span>The levers your team can pull this week. Move these and the North Star follows.</span></p></div>
+          <div><i class="sw" style="background:var(--gold)"></i><p style="margin:0"><b>The trap</b><span>A dashboard made only of results is a report card. You need the inputs too.</span></p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 ask first -->
+    <div class="block rv" data-anim="ask">
+      <div class="block-h"><span class="step">4</span><h3>Make it ask before it answers</h3></div>
+      <div class="q">Ask me first: audience · decisions · data cadence.</div>
+      <div class="ask-row">
+        <div class="chat" id="chat">
+          <div class="bub" id="b1"><small>QUESTION 1</small>Who is the primary audience — operator, exec, or board?</div>
+          <div class="bub" id="b2"><small>QUESTION 2</small>What decisions do they need this dashboard to inform?</div>
+          <div class="bub" id="b3"><small>QUESTION 3</small>What data can we actually get weekly vs. monthly vs. quarterly?</div>
+          <div class="typing" id="typing"><i></i><i></i><i></i></div>
+        </div>
+        <div class="chips">
+          <h4>Audience changes everything</h4>
+          <div class="chipset" id="aud"><span class="chip">Operator</span><span class="chip">Exec</span><span class="chip">Board</span></div>
+          <h4>Data cadence decides what's realistic</h4>
+          <div class="chipset" id="cad"><span class="chip">Weekly</span><span class="chip">Monthly</span><span class="chip">Quarterly</span></div>
+          <div class="why"><b>Why it works:</b> without these answers, the model guesses. An operator's dashboard and a board's dashboard share almost no metrics.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- full prompt -->
+    <div class="full rv">
+      <div class="full-h"><div style="display:flex;gap:18px;align-items:center"><div class="dots3"><i></i><i></i><i></i></div><span class="kicker">The full prompt</span></div><button class="copy" data-copy="promptText">Copy prompt</button></div>
+<pre id="promptPre">Act as a performance measurement expert. Design a KPI dashboard for
+<span class="g">[function / initiative]</span> using the Balanced Scorecard structure
+(Financial, Customer, Process, Learning &amp; Growth).
+
+<span class="c">Rules:
+- Maximum 8 metrics total
+- Each must be classified as leading or lagging
+- Each must have a target, a threshold (amber), and an alarm (red)
+- Each must map to a decision it triggers — no metric without a decision</span>
+
+Also define our North Star metric — the ONE number that best represents
+whether we're winning — and the 3 input metrics that move it.
+
+<span class="c">Ask me first:
+- Who is the primary audience — operator, exec, or board?
+- What decisions do they need this dashboard to inform?
+- What data can we actually get weekly vs. monthly vs. quarterly?</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT YOU GET BACK ============ -->
+<section class="result" id="result">
+  <div class="wrap">
+    <div class="kicker rv">What you'll get back</div>
+    <h2 class="rv d1">A decision tool, not a data dump.</h2>
+    <p class="lede rv d2">A clean North Star and its input tree, plus eight metrics across the scorecard. Each one has its thresholds set and a decision it triggers. <span style="opacity:.7">(Illustrative example.)</span></p>
+
+    <div class="dash rv" data-anim="dash">
+      <div class="nsbar">
+        <div><div class="lab">★ NORTH STAR</div><div class="nm">Weekly active teams</div></div>
+        <svg viewBox="0 0 300 54" preserveAspectRatio="none"><polyline id="nsline" fill="none" stroke="#e3a33e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" points="0,44 30,40 60,42 90,34 120,36 150,28 180,26 210,20 240,18 270,12 300,8"/></svg>
+        <div class="v"><span id="nsv">0</span><small>▲ 6.2% WoW</small></div>
+      </div>
+      <div class="inputs3">
+        <div class="inp"><div><em>INPUT 1</em><b>Teams activated</b></div><span>212</span></div>
+        <div class="inp"><div><em>INPUT 2</em><b>Invites sent / team</b></div><span>4.8</span></div>
+        <div class="inp"><div><em>INPUT 3</em><b>Day-7 return rate</b></div><span>58%</span></div>
+      </div>
+      <div class="cols" id="cols"></div>
+    </div>
+    <div class="legend rv">
+      <span><i style="background:var(--green)"></i>On target</span>
+      <span><i style="background:var(--amber)"></i>Amber — watch</span>
+      <span><i style="background:var(--red)"></i>Red — triggers the decision</span>
+      <span style="opacity:.8">▮ marker = where the metric sits vs. its thresholds</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRO MOVE ============ -->
+<section class="pro" id="pro">
+  <div class="wrap">
+    <div class="kicker rv">Pro move</div>
+    <h2 class="rv d1">Give the dashboard a voice.</h2>
+    <p class="lede rv d2" style="color:#b8c8cf">Numbers don't explain themselves. Follow up with this:</p>
+    <div class="pro-q rv d2"><span id="proText">“Now write the weekly narrative template that goes with the dashboard — what's on track, what's off, and what we're doing about it.”</span><button class="copy" data-copy="proText">Copy</button></div>
+
+    <div class="memo rv" data-anim="memo">
+      <div class="memo-h"><b>Weekly narrative · Week 44</b><span>Owner: Ops · 5-minute read</span></div>
+      <div class="lanes">
+        <div class="lane"><h6 style="color:#2b8a5b"><i style="background:var(--green)"></i>On track</h6><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+        <div class="lane"><h6 style="color:#a86d12"><i style="background:var(--red)"></i>Off track</h6><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+        <div class="lane"><h6 style="color:var(--teal)"><i style="background:var(--teal)"></i>What we're doing</h6><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="q rv">How many metrics are on your dashboard — and how many changed a <em>decision</em> last quarter?</div>
+    <div class="by rv d1"><div><b>Gaurav Sanyal</b><span>Strategic Operations Leader · IIM-V Alum</span></div><span class="kicker" style="color:#7fa5b5;align-self:flex-end">Prompting 101</span></div>
+  </div>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const P=(t,a,d)=>clamp((t-a)/d);
+const eo=x=>1-Math.pow(1-x,3);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ---------- reveal + per-component clocks ---------- */
+const anims={}, started={}, visible={};
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  const el=e.target;
+  if(e.isIntersecting){ el.classList.add('in'); const a=el.dataset.anim; if(a){ visible[a]=true; if(started[a]==null) started[a]=performance.now(); } }
+  else if(el.dataset.anim){ visible[el.dataset.anim]=false; }
+}),{threshold:.18});
+document.querySelectorAll('.rv,[data-anim]').forEach(el=>io.observe(el));
+// hero tiles always run while hero visible
+const heroObs=new IntersectionObserver(es=>es.forEach(e=>{visible.hero=e.isIntersecting; if(e.isIntersecting&&started.hero==null) started.hero=performance.now();}),{threshold:.1});
+heroObs.observe($('scene'));
+
+/* ---------- HERO: 40 → 8 loop ---------- */
+const KEEP=[3,9,12,18,22,27,31,36];
+const tiles=[];
+for(let i=0;i<40;i++){
+  const d=document.createElement('div'); d.className='tile';
+  const r=rng(i+3); let y=12, pts=[]; for(let x=0;x<=100;x+=12.5){ y=clamp(y+(r()-.5)*12,2,22); pts.push(x+','+y.toFixed(1)); }
+  d.innerHTML=`<i></i><svg viewBox="0 0 100 24" preserveAspectRatio="none"><polyline fill="none" stroke="${KEEP.includes(i)?'#e3a33e':'#8fbccb'}" stroke-width="2.4" vector-effect="non-scaling-stroke" points="${pts.join(' ')}"/></svg>`;
+  $('tiles').appendChild(d); tiles.push(d);
+}
+anims.hero=u=>{
+  const L=11, t=u%L;
+  let dropped=0;
+  tiles.forEach((d,i)=>{
+    const keep=KEEP.includes(i), pop=P(t,.1+i*.03,.35), ci=2.6+i*.07, p=P(t,ci,.45), reset=P(t,10.2,.6);
+    let op=pop, tr=`scale(${.7+.3*eo(pop)})`, bc='rgba(255,255,255,.14)', gs=0;
+    if(t>1.6&&t<2.6){ gs=P(t,1.6,.6); op=1-.6*gs; }               // "nobody looks" → grey
+    if(t>=2.6){
+      if(keep){ op=.4+.6*p; gs=1-p; bc=`rgba(227,163,62,${p})`; tr=`scale(${1+Math.sin(p*Math.PI)*.12})`; }
+      else { op=.4*(1-p); gs=1; tr=`translateY(${eo(p)*24}px) rotate(${(i%2?1:-1)*eo(p)*10}deg)`; if(t>=ci+.2) dropped++; }
+    }
+    op*=1-reset;
+    d.style.opacity=op; d.style.transform=tr; d.style.borderColor=bc; d.style.filter=`grayscale(${gs})`;
+  });
+  $('cnt').textContent=40-dropped;
+  $('cntl').textContent= dropped>=32 ? 'metrics that drive a decision' : 'metrics on the dashboard';
+  $('eyet').textContent= dropped>=32 ? 'Every metric has an owner and a trigger' : 'Viewed this week: 0';
+};
+
+/* ---------- 1 · BSC quadrants + slot typing ---------- */
+const SLOTS=['Sales','Customer Success','Supply Chain','HR & Talent','Product Launch','Finance Ops'];
+const quads=[...$('quad').children];
+anims.bsc=u=>{
+  const qi=Math.floor(u/1.3)%4; quads.forEach((q,i)=>q.classList.toggle('on',i===qi));
+  const per=2.6, k=Math.floor(u/per)%SLOTS.length, lt=u%per, w=SLOTS[k];
+  const n = lt<1.4 ? Math.ceil(lt/1.4*w.length) : lt>2.2 ? Math.ceil((1-(lt-2.2)/.4)*w.length) : w.length;
+  $('slotv').textContent=w.slice(0,Math.max(0,n));
+};
+
+/* ---------- 2 · rules ---------- */
+for(let i=0;i<8;i++) $('slots').appendChild(document.createElement('div'));
+const slotEls=[...$('slots').children];
+const TOG=[['Activation','lead'],['Revenue','lag'],['Cycle time','lead']];
+TOG.forEach(([n,c])=>{ const d=document.createElement('div'); d.className='tg'; d.innerHTML=`<span>${n}</span><span class="pill ${c}">${c==='lead'?'LEADING':'LAGGING'}</span>`; $('tog').appendChild(d); });
+const togEls=[...$('tog').children];
+anims.rules=u=>{
+  // slots
+  const t=u%5.2;
+  slotEls.forEach((s,i)=>s.classList.toggle('f', t>.2+i*.28 && t<4.8));
+  const nin=$('ninth'), a=P(t,2.8,.4), b=P(t,3.25,.5);
+  nin.style.transform=`translateY(${-(eo(a)*30)+eo(b)*30}px) rotate(${b*12}deg)`;
+  nin.style.background= t>3.2&&t<4.6 ? '#d9534f' : '#cfc6b0';
+  nin.textContent= t>3.2&&t<4.6 ? '#9 ✕' : '#9';
+  nin.style.opacity= t<2.6 ? P(t,2.2,.4) : 1-P(t,4.3,.4);
+  // toggle highlight sweep
+  const hi=Math.floor(u/1.1)%3; togEls.forEach((e,i)=>{ e.style.borderColor=i===hi?'#15607c':'#ebe5d6'; e.style.transform=i===hi?'translateX(4px)':'none'; });
+  // gauge needle
+  const v=(Math.sin(u*0.9)+Math.sin(u*0.37)*.6)/1.6;           // -1..1
+  const ang=v*80;                                              // degrees from vertical
+  $('needle').setAttribute('transform',`rotate(${ang} 85 90)`);
+  const st= ang<-30 ? ['RED ALARM','#d9534f'] : ang<30 ? ['AMBER · WATCH','#b77818'] : ['ON TARGET','#2b8a5b'];
+  $('gstat').textContent=st[0]; $('gstat').style.color=st[1];
+  // decision rows
+  const d=u%6;
+  [['dr1',.3],['dr2',1.3],['dr3',2.3]].forEach(([id,s])=>{
+    const row=$(id), p=eo(P(d,s,.6));
+    row.querySelector('.ar').style.backgroundSize=`${p*100}% 100%`;
+    row.querySelector('.d').style.opacity=P(d,s+.5,.3);
+    if(id==='dr2'){ const g=P(d,3.4,.6)*(1-P(d,5.4,.4)); row.style.opacity=1-g*.75; row.style.transform=`translateX(${g*10}px)`; row.querySelector('.m').style.textDecoration=g>.3?'line-through':'none'; }
+    if(d>5.6){ row.querySelector('.ar').style.backgroundSize='0% 100%'; row.querySelector('.d').style.opacity=0; }
+  });
+};
+
+/* ---------- 3 · North Star tree ---------- */
+const SVGNS='http://www.w3.org/2000/svg', tsvg=$('treesvg');
+const mk=(tag,at,par=tsvg)=>{const e=document.createElementNS(SVGNS,tag);for(const k in at)e.setAttribute(k,at[k]);par.appendChild(e);return e;};
+const NSN={x:280,y:70}, INS=[{x:95,y:255,l:'Input 1',s:'Activation'},{x:280,y:255,l:'Input 2',s:'Engagement'},{x:465,y:255,l:'Input 3',s:'Retention'}];
+const paths=INS.map(n=>mk('path',{d:`M${n.x} ${n.y-40} C ${n.x} ${n.y-110}, ${NSN.x} ${NSN.y+120}, ${NSN.x} ${NSN.y+54}`,fill:'none',stroke:'#9fb8c2','stroke-width':3,'stroke-dasharray':'6 7'}));
+const glow=mk('circle',{cx:NSN.x,cy:NSN.y,r:58,fill:'none',stroke:'#e3a33e','stroke-width':4,opacity:0});
+const pulses=INS.map(()=>[0,1].map(()=>mk('circle',{r:7,fill:'#e3a33e',stroke:'#fff','stroke-width':2.5,opacity:0})));
+mk('circle',{cx:NSN.x,cy:NSN.y,r:56,fill:'#10202a'});
+const st1=mk('text',{x:NSN.x,y:NSN.y-4,'text-anchor':'middle',fill:'#e3a33e','font-family':'Inter','font-size':9.5,'font-weight':700,'letter-spacing':'1.5'}); st1.textContent='★ NORTH STAR';
+const nsVal=mk('text',{x:NSN.x,y:NSN.y+20,'text-anchor':'middle',fill:'#fff','font-family':'Inter','font-size':22,'font-weight':600}); nsVal.textContent='1,284';
+INS.forEach(n=>{ const g=mk('g',{}); mk('rect',{x:n.x-74,y:n.y-38,width:148,height:76,rx:16,fill:'#15607c'},g);
+  const a=mk('text',{x:n.x,y:n.y-6,'text-anchor':'middle',fill:'#cfe0e7','font-family':'Inter','font-size':11,'font-weight':700,'letter-spacing':'1.5'},g); a.textContent=n.l.toUpperCase();
+  const b=mk('text',{x:n.x,y:n.y+18,'text-anchor':'middle',fill:'#fff','font-family':'Inter','font-size':17,'font-weight':600},g); b.textContent=n.s; });
+anims.tree=u=>{
+  let hit=0;
+  paths.forEach((p,i)=>{
+    p.setAttribute('stroke-dashoffset',-u*22);
+    const L=p.getTotalLength();
+    pulses[i].forEach((c,j)=>{
+      const per=2.4, ph=((u+i*.45+j*per/2)%per)/per, pt=p.getPointAtLength(L*eo(ph));
+      c.setAttribute('cx',pt.x); c.setAttribute('cy',pt.y); c.setAttribute('opacity',Math.sin(ph*Math.PI)*1.3);
+      hit=Math.max(hit,Math.max(0,1-Math.abs(ph-.97)*10));
+    });
+  });
+  glow.setAttribute('opacity',hit); glow.setAttribute('r',58+hit*10);
+  nsVal.textContent=(1240+Math.floor(u*3)%60).toLocaleString('en-US');
+};
+
+/* ---------- 4 · Ask first ---------- */
+const audC=[...$('aud').children], cadC=[...$('cad').children];
+anims.ask=u=>{
+  const t=u%10;
+  ['b1','b2','b3'].forEach((id,i)=>$(id).classList.toggle('show',t>.9+i*1.6&&t<9.4));
+  $('typing').style.display = (t<.9||(t>1.6&&t<2.5)||(t>3.2&&t<4.1)) ? 'flex':'none';
+  const ai=Math.floor(u/1.4)%3, ci=Math.floor(u/1.4+1)%3;
+  audC.forEach((c,i)=>c.classList.toggle('on',i===ai)); cadC.forEach((c,i)=>c.classList.toggle('on',i===ci));
+};
+
+/* ---------- RESULT dashboard ---------- */
+const COLS=[
+ ['Financial',[['Gross margin','61%','lag','g',.7,'Revisit pricing'],['CAC payback','14 mo','lag','a',.45,'Shift channel spend']]],
+ ['Customer',[['Revenue retention','94%','lag','r',.16,'Trigger churn review'],['Day-7 return','58%','lead','g',.72,'Double down on onboarding']]],
+ ['Process',[['Cycle time','6.1 d','lead','g',.68,'Unblock approvals'],['On-time delivery','96%','lag','g',.84,'Escalate supplier']]],
+ ['Learning & Growth',[['Skill coverage','82%','lead','g',.74,'Fund training'],['Activation rate','41%','lead','a',.5,'Fix onboarding step 3']]],
+];
+const LC={g:'#3fb37a',a:'#e3a33e',r:'#d9534f'};
+const mets=[];
+COLS.forEach(([h,ms])=>{
+  const c=document.createElement('div'); c.className='col'; c.innerHTML=`<h5>${h}</h5>`;
+  ms.forEach(m=>{
+    const e=document.createElement('div'); e.className='met';
+    e.innerHTML=`<div class="top"><b>${m[0]}</b><span class="light"></span></div>
+      <div class="row2"><span class="val">${m[1]}</span><span class="tag" style="background:${m[2]==='lead'?'rgba(21,96,124,.12)':'rgba(227,163,62,.2)'};color:${m[2]==='lead'?'#15607c':'#a86d12'}">${m[2]==='lead'?'LEADING':'LAGGING'}</span></div>
+      <div style="position:relative"><div class="bar"><i style="width:30%;background:#f1c9c7"></i><i style="width:25%;background:#f6e2bd"></i><i style="width:45%;background:#cfead9"></i></div><span class="mk"></span></div>
+      <div class="trig">→ ${m[5]}</div>`;
+    e._m=m; c.appendChild(e); mets.push(e);
+  });
+  $('cols').appendChild(c);
+});
+let dashDone=false;
+anims.dash=u=>{
+  $('nsv').textContent=Math.round(1284*eo(P(u,.2,1.6))).toLocaleString('en-US');
+  const nl=$('nsline'), L=nl.getTotalLength?nl.getTotalLength():400; nl.style.strokeDasharray=L; nl.style.strokeDashoffset=L*(1-eo(P(u,.2,1.6)));
+  if(dashDone) return;
+  mets.forEach((e,i)=>{
+    const s=.5+i*.14;
+    if(u>s) e.classList.add('in');
+    if(u>s+.3) e.querySelector('.mk').style.left=`calc(${e._m[4]*100}% - 1.5px)`;
+    if(u>s+1.2){ e.querySelector('.light').style.background=LC[e._m[3]]; if(e._m[3]==='r') e.classList.add('alarm'); }
+  });
+  if(u>4) dashDone=true;
+};
+
+/* ---------- PRO: narrative memo typing ---------- */
+const MEMO=[
+  ['<b>Weekly active teams</b> 1,284 (+6.2%) — 3rd straight week up','<b>Cycle time</b> 6.1 days, under the 7-day target','<b>On-time delivery</b> 96%, holding above 95%'],
+  ['<b>Revenue retention</b> 94% — below the 95% red line','<b>CAC payback</b> 14 months, in amber (target 12)','<b>Activation</b> 41%, amber for 2 weeks'],
+  ['<b>Churn review</b> on the top 20 at-risk accounts — owner: CS, due Fri','<b>Move 15% of paid budget</b> into referral — owner: Growth','<b>Fix onboarding step 3</b>, A/B test live Tue — owner: Product'],
+];
+const lnEls=[...document.querySelectorAll('.lane')].map(l=>[...l.querySelectorAll('.ln')]);
+const strip=s=>s.replace(/<[^>]+>/g,'');
+function partial(html,n){ // reveal first n visible chars of simple <b> html
+  let out='',c=0,i=0; while(i<html.length&&c<n){ if(html[i]==='<'){const j=html.indexOf('>',i); out+=html.slice(i,j+1); i=j+1;} else {out+=html[i++]; c++;} }
+  if(out.split('<b>').length>out.split('</b>').length) out+='</b>'; return out;
+}
+anims.memo=u=>{
+  const L=16, t=u%L, cps=48; let clock=.4;
+  MEMO.forEach((lane,li)=>lane.forEach((line,k)=>{
+    const len=strip(line).length, start=clock, n=Math.floor((t-start)*cps);
+    clock+=len/cps+.25;
+    const el=lnEls[li][k];
+    if(t>L-.8){ el.innerHTML=''; return; }
+    el.innerHTML = n<=0 ? '' : n>=len ? line : partial(line,n)+'<span class="cur"></span>';
+  }));
+};
+
+/* ---------- main loop ---------- */
+function frame(now){
+  for(const k in anims){ if(visible[k] && started[k]!=null) anims[k]((now-started[k])/1000); }
+  const h=document.documentElement; $('rail').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  requestAnimationFrame(frame);
+}
+if(reduce){ // static final states
+  for(const k of ['hero','bsc','rules','tree','ask']) anims[k](k==='hero'?9:3.5);
+  anims.dash(5); anims.memo(15); document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
+} else requestAnimationFrame(frame);
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const src=$(b.dataset.copy==='promptText'?'promptPre':'proText'); const text=src.innerText.replace(/^“|”$/g,'');
+  const done=()=>{ const o=b.textContent; b.textContent='Copied ✓'; b.classList.add('ok'); setTimeout(()=>{b.textContent=o;b.classList.remove('ok');},1600); };
+  const fallback=()=>{ const r=document.createRange(); r.selectNodeContents(src); const s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent='Selected — press ⌘/Ctrl+C'; setTimeout(()=>b.textContent='Copy',2400); };
+  try{ navigator.clipboard.writeText(text).then(done,fallback); }catch(e){ fallback(); }
+}));
+</script>
+</body>
+</html>
