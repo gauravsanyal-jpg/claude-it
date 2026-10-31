@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KPI Dashboard — North Star · Motion Graphic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#15607c; --gold:#e3a33e; --cream:#f3efe3; --ink:#10202a;
+    --mute:#a9c6d2; --line:rgba(255,255,255,.16); --cyan:#8fbccb;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#0b161c;overflow:hidden;font-family:Inter,system-ui,sans-serif}
+  #wrap{position:absolute;left:50%;top:50%;width:1080px;height:1350px;transform-origin:center;overflow:hidden;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  body.capture #wrap{left:0;top:0;transform:none!important;border-radius:0;box-shadow:none}
+  .scene{position:absolute;inset:0;overflow:hidden;display:none}
+  .serif{font-family:'Playfair Display',Georgia,serif}
+  .mono{font-family:'JetBrains Mono','DejaVu Sans Mono',monospace}
+  .abs{position:absolute}
+  .kicker{position:absolute;left:94px;font:600 20px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+  .w{display:inline-block;will-change:transform,opacity}
+
+  /* tiles */
+  .tile{position:absolute;border-radius:.6em;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+        padding:.55em .65em;color:#fff;overflow:hidden;font-size:13px}
+  .tile .tl{display:block;font:500 .82em/1.1 Inter,sans-serif;color:#cfe0e7;white-space:nowrap}
+  .tile svg{display:block;width:100%;height:2.3em;margin:.35em 0 .2em}
+  .tile .tv{font:600 1.05em/1 Inter,sans-serif}
+  .tile .td{display:block;margin-top:.5em;font:500 .7em/1.25 Inter,sans-serif;color:var(--gold);opacity:0;white-space:nowrap}
+
+  /* dashboard (scene 7) */
+  .card{position:absolute;left:94px;top:530px;width:892px;height:730px;background:#fff;border-radius:22px;box-shadow:0 20px 50px rgba(16,32,42,.12);padding:28px}
+  .ns{height:118px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;padding:0 30px;gap:24px}
+  .ns .lab{font:600 15px Inter;letter-spacing:.18em;color:var(--gold)}
+  .ns .nm{font:400 30px 'Playfair Display',serif}
+  .ns .val{margin-left:auto;font:600 44px Inter;letter-spacing:-.01em}
+  .ns .dl{font:600 18px Inter;color:#6fd39b}
+  .grid8{position:relative;margin-top:24px}
+  .k{position:absolute;width:197px;height:262px;border-radius:14px;background:#f7f5ef;border:1px solid #e7e2d4;padding:18px 16px}
+  .k .kn{font:600 17px/1.2 Inter;color:var(--ink);padding-right:22px}
+  .k .tag{display:inline-block;margin-top:8px;font:600 11px Inter;letter-spacing:.12em;padding:4px 8px;border-radius:20px}
+  .k .tag.lead{background:rgba(21,96,124,.12);color:var(--teal)}
+  .k .tag.lag{background:rgba(227,163,62,.18);color:#a86d12}
+  .k .kv{margin-top:16px;font:600 34px Inter;color:var(--ink)}
+  .k .dot{position:absolute;right:16px;top:20px;width:16px;height:16px;border-radius:50%;background:#ccc}
+  .k .bar{position:relative;margin-top:16px;height:10px;border-radius:5px;overflow:hidden;display:flex}
+  .k .bar i{display:block;height:100%}
+  .k .mk{position:absolute;top:-5px;width:4px;height:20px;border-radius:2px;background:var(--ink)}
+  .k .barw{position:relative}
+  .k .dec{margin-top:16px;font:500 14px/1.3 Inter;color:#5a6a72}
+
+  /* HUD */
+  #hud{position:fixed;left:0;right:0;bottom:0;height:52px;display:flex;align-items:center;gap:14px;padding:0 18px;background:rgba(8,16,20,.85);color:#cfe0e7;font:500 13px Inter;z-index:10}
+  #hud button{background:none;border:1px solid #2c4552;color:#fff;border-radius:6px;height:30px;min-width:38px;cursor:pointer;font:500 13px Inter}
+  #hud input{flex:1;accent-color:var(--gold)}
+  body.capture #hud{display:none}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+  <!-- 1 · HOOK -->
+  <section class="scene" id="s1" style="background:var(--teal)">
+    <div id="s1a" class="abs serif" style="left:94px;top:360px;width:900px;font-size:86px;line-height:1.13;color:#fff"></div>
+    <div id="s1b" class="abs serif" style="left:94px;top:700px;width:900px;font-size:86px;line-height:1.13;color:var(--gold);font-style:italic"></div>
+    <div id="s1k" class="kicker" style="top:1230px;color:var(--mute)">Prompting 101 · KPI Dashboards</div>
+  </section>
+
+  <!-- 2 · THE FAILURE -->
+  <section class="scene" id="s2" style="background:var(--teal)">
+    <div id="s2k" class="kicker" style="top:108px;color:var(--mute)">You have seen this one</div>
+    <div id="s2rows"></div>
+    <div id="s2body" class="abs" style="left:94px;top:612px;width:840px;font:400 29px/1.5 Inter;color:#dbe8ee">
+      The failure is not measurement. It is the absence of a rule about what earns a place.
+    </div>
+    <div id="s2tiles"></div>
+  </section>
+
+  <!-- 3 · ONE RULE -->
+  <section class="scene" id="s3" style="background:var(--teal)">
+    <div id="s3k" class="kicker" style="top:140px;color:var(--mute)">The framework</div>
+    <div id="s3h" class="abs serif" style="left:90px;top:176px;font-size:128px;font-weight:700;color:#fff;line-height:1">One rule</div>
+    <div id="s3cnt" class="abs" style="right:94px;top:150px;text-align:right">
+      <div id="s3num" class="serif" style="font-size:150px;line-height:.9;color:var(--gold)">40</div>
+      <div style="font:600 17px Inter;letter-spacing:.2em;color:var(--mute);margin-top:10px">METRICS</div>
+    </div>
+    <div id="s3b" class="abs" style="left:94px;top:358px;width:892px;font:400 31px/1.5 Inter;color:#fff">
+      <span id="s3b1">Every metric must map to a decision it triggers. If you cannot name the decision, the metric comes off. </span><span id="s3b2" style="color:var(--gold)">That single constraint usually cuts forty down to eight.</span>
+    </div>
+    <div id="s3tiles"></div>
+  </section>
+
+  <!-- 4 · NORTH STAR -->
+  <section class="scene" id="s4" style="background:var(--cream)">
+    <div id="s4k" class="kicker" style="top:108px;color:var(--teal)">One North Star, three inputs</div>
+    <svg id="s4svg" class="abs" style="left:0;top:0" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
+    <div id="s4leg" class="abs" style="left:94px;top:1030px;font:500 22px Inter;color:#2a3a42;display:flex;gap:40px">
+      <span><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--teal);margin-right:10px"></span>Leading — you can act on these</span>
+      <span><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--gold);margin-right:10px"></span>Lagging — the history lesson</span>
+    </div>
+    <div class="abs serif" style="left:94px;top:1110px;width:900px;font-size:37px;line-height:1.42;color:var(--ink)">
+      <div id="s4c1">Most dashboards are entirely lagging, which makes them a report card.</div>
+      <div id="s4c2">You need the <em style="color:var(--teal)">inputs</em>, not just the outputs.</div>
+    </div>
+  </section>
+
+  <!-- 5 · PROMPT 1 -->
+  <section class="scene" id="s5" style="background:var(--ink)">
+    <div id="s5k" class="kicker" style="top:108px;color:var(--gold)">The prompt — 1 of 2</div>
+    <div id="s5t" class="abs mono" style="left:94px;top:170px;width:900px;font-size:27px;line-height:1.66;white-space:pre-wrap;color:#eef3f5"></div>
+    <div id="s5f" class="kicker" style="top:1240px;color:#7d949e">It asks first. That's the whole trick.</div>
+  </section>
+
+  <!-- 6 · PROMPT 2 -->
+  <section class="scene" id="s6" style="background:var(--ink)">
+    <div id="s6k" class="kicker" style="top:108px;color:var(--gold)">The prompt — 2 of 2</div>
+    <div id="s6t" class="abs mono" style="left:94px;top:170px;width:900px;font-size:27px;line-height:1.66;white-space:pre-wrap;color:#eef3f5"></div>
+    <div id="s6f" class="kicker" style="top:1240px;color:#7d949e">Works on Claude, ChatGPT, Gemini, Copilot</div>
+  </section>
+
+  <!-- 7 · WHAT YOU GET -->
+  <section class="scene" id="s7" style="background:var(--cream)">
+    <div id="s7k" class="kicker" style="top:130px;color:var(--teal)">What you'll get back</div>
+    <div id="s7h" class="abs serif" style="left:94px;top:172px;width:900px;font-size:58px;line-height:1.18;color:var(--ink)">A dashboard that is a decision tool, not a data dump.</div>
+    <div id="s7b" class="abs" style="left:94px;top:340px;width:860px;font:400 27px/1.5 Inter;color:#4a5a62">Eight metrics, thresholds set in advance, and a North Star with the three inputs that actually move it.</div>
+    <div id="s7card" class="card">
+      <div class="ns" id="s7ns">
+        <div><div class="lab">NORTH STAR</div><div class="nm">Weekly active teams</div></div>
+        <div class="val" id="s7nsv">0</div><div class="dl" id="s7nsd">▲ 6.2%</div>
+      </div>
+      <div class="grid8" id="s7grid"></div>
+    </div>
+  </section>
+
+  <!-- 8 · CTA -->
+  <section class="scene" id="s8" style="background:var(--teal)">
+    <div id="s8q" class="abs serif" style="left:94px;top:350px;width:910px;font-size:62px;line-height:1.2;color:#fff"></div>
+    <div id="s8quote" class="abs" style="left:94px;top:712px;border-left:5px solid var(--gold);padding-left:28px;font:500 26px/1.6 Inter;color:#fff">
+      Full prompt in the comments.<br>Tell me yours below — I read every one.
+    </div>
+    <div id="s8line" class="abs" style="left:94px;top:1100px;width:892px;height:1px;background:var(--line);transform-origin:left"></div>
+    <div id="s8n" class="abs serif" style="left:94px;top:1128px;font-size:38px;color:#fff">Gaurav Sanyal</div>
+    <div id="s8t" class="abs" style="left:94px;top:1186px;font:400 21px Inter;color:var(--mute)">Strategic Operations Leader · IIM-V Alum</div>
+    <div id="s8p" class="kicker" style="top:1236px;color:#7fa5b5">Prompting 101</div>
+  </section>
+
+</div>
+
+<div id="hud">
+  <button id="play">❚❚</button>
+  <button id="restart">↺</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0">
+  <span id="time">0.0s</span>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+const P = (t,a,d) => clamp((t-a)/d);
+const eo = x => 1-Math.pow(1-x,3);              // easeOutCubic
+const eio = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const back = x => { const c=1.70158, c3=c+1; return 1+c3*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
+const lerp = (a,b,p) => a+(b-a)*p;
+function fadeUp(el,p,dy=34){ el.style.opacity=p; el.style.transform=`translateY(${(1-eo(p))*dy}px)`; }
+function rng(seed){ return () => { seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function splitWords(el,text){
+  el.innerHTML = text.split(' ').map(w => `<span class="w">${w}</span>`).join(' ');
+  return [...el.querySelectorAll('.w')];
+}
+
+/* ---------- timeline ---------- */
+const S = { s1:0, s2:7, s3:16, s4:26.5, s5:37.5, s6:48.5, s7:59.5, s8:67 };
+const DURATION = 76;
+const ORDER = ['s1','s2','s3','s4','s5','s6','s7','s8'];
+const FADE = .6;
+
+/* ---------- scene 1 ---------- */
+const s1a = splitWords($('s1a'), 'If a metric does not trigger a decision, it is decoration.');
+const s1b = splitWords($('s1b'), 'Most dashboards are almost entirely decoration.');
+const decoWord = s1a[s1a.length-1];
+decoWord.style.backgroundImage = 'linear-gradient(var(--gold),var(--gold))';
+decoWord.style.backgroundRepeat = 'no-repeat';
+decoWord.style.backgroundPosition = '0 92%';
+
+function r1(u){
+  s1a.forEach((w,i)=>fadeUp(w,P(u,.3+i*.13,.6),40));
+  decoWord.style.backgroundSize = `${eio(P(u,2.2,.7))*100}% 5px`;
+  s1b.forEach((w,i)=>fadeUp(w,P(u,3.0+i*.14,.6),40));
+  $('s1k').style.opacity = P(u,4.4,.8);
+}
+
+/* ---------- tiles (scenes 2 + 3) ---------- */
+const NOISE = ["Page views","Followers","Logins","Emails sent","Tickets","Meetings","Downloads","Impressions",
+  "Bounce rate","Time on site","Headcount","Slack msgs","Avg session","Likes","CSAT raw","Open rate","Clicks",
+  "Uptime","Sessions","Page loads","Signups","All leads","Demos","Calls made","Docs","Commits","Story pts",
+  "Deploys","Posts","Webinars","Survey resp.","Visitors"];
+const KEEP = [ ["Pipeline","Add SDR capacity"],["NRR","Trigger churn review"],["CAC payback","Shift channel spend"],
+  ["Activation","Fix onboarding"],["Cycle time","Unblock the process"],["Gross margin","Revisit pricing"],
+  ["On-time %","Escalate supplier"],["Skills","Fund training"] ];
+const KEEP_IDX = [3,9,12,18,22,27,31,36];
+const COLS=8, TW=106, TH=82, GAP=12, GX=(1080-(COLS*TW+(COLS-1)*GAP))/2, GY=800;
+const metrics = []; { let n=0,k=0; for(let i=0;i<40;i++){ if(KEEP_IDX.includes(i)) metrics.push({name:KEEP[k][0],dec:KEEP[k++][1],keep:true}); else metrics.push({name:NOISE[n++],keep:false}); } }
+function sparkPts(seed){ const r=rng(seed); let y=15, pts=[]; for(let x=0;x<=100;x+=10){ y=clamp(y+(r()-.5)*14,3,27); pts.push(`${x},${y.toFixed(1)}`);} return pts.join(' '); }
+function buildTiles(container, withDecision){
+  return metrics.map((m,i)=>{
+    const d = document.createElement('div'); d.className='tile';
+    const r = rng(i*97+5);
+    d.innerHTML = `<span class="tl">${m.name}</span><svg viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" stroke="${m.keep?'#e3a33e':'#8fbccb'}" stroke-width="2.2" vector-effect="non-scaling-stroke" points="${sparkPts(i+1)}"/></svg><span class="tv">${(r()*900+10).toFixed(r()>.5?0:1)}</span>${withDecision&&m.keep?`<span class="td">→ ${m.dec}</span>`:''}`;
+    const c=i%COLS, row=Math.floor(i/COLS);
+    d._x=GX+c*(TW+GAP); d._y=GY+row*(TH+GAP);
+    Object.assign(d.style,{left:d._x+'px',top:d._y+'px',width:TW+'px',height:TH+'px'});
+    container.appendChild(d); return d;
+  });
+}
+const t2 = buildTiles($('s2tiles'), false);
+const t3 = buildTiles($('s3tiles'), true);
+
+/* scene 2 rows */
+const ROWS = ['Forty metrics.','Updated weekly.','Reviewed by nobody.'];
+const rowEls = [];
+ROWS.forEach((txt,i)=>{
+  const line = document.createElement('div'); line.className='abs';
+  Object.assign(line.style,{left:'94px',top:(184+i*127)+'px',width:'892px',height:'1px',background:'var(--line)',transformOrigin:'left'});
+  const tx = document.createElement('div'); tx.className='abs serif'; tx.textContent=txt;
+  Object.assign(tx.style,{left:'94px',top:(184+i*127+30)+'px',fontSize:'54px',color:'#fff',lineHeight:'1.2'});
+  $('s2rows').append(line,tx); rowEls.push({line,tx});
+});
+const lastLine = document.createElement('div'); lastLine.className='abs';
+Object.assign(lastLine.style,{left:'94px',top:(184+3*127)+'px',width:'892px',height:'1px',background:'var(--line)',transformOrigin:'left'});
+$('s2rows').append(lastLine);
+
+function r2(u){
+  fadeUp($('s2k'),P(u,.2,.6),14);
+  const rowT=[.7,2.6,4.4];
+  rowEls.forEach((r,i)=>{ r.line.style.transform=`scaleX(${eio(P(u,rowT[i]-.3,.8))})`; fadeUp(r.tx,P(u,rowT[i],.7),26); });
+  lastLine.style.transform=`scaleX(${eio(P(u,4.6,.8))})`;
+  // tiles pop in (forty metrics)
+  const dim = eio(P(u,4.6,1.2));                       // reviewed by nobody → fade to grey
+  t2.forEach((d,i)=>{
+    const p = back(P(u,.8+i*.04,.45));
+    const scan = Math.max(0, 1-Math.abs((u-2.8)*7 - (i%COLS) - Math.floor(i/COLS)*.4)/1.6); // weekly refresh sweep
+    d.style.opacity = P(u,.8+i*.04,.25) * (1-dim*.72);
+    d.style.transform = `scale(${.6+.4*p})`;
+    d.style.filter = `grayscale(${dim})`;
+    d.style.borderColor = scan>0 ? `rgba(227,163,62,${scan})` : 'rgba(255,255,255,.14)';
+    d.style.background = `rgba(255,255,255,${.07+scan*.12})`;
+  });
+  fadeUp($('s2body'),P(u,6.0,.8),24);
+}
+
+/* scene 3 */
+const FINAL = { w:200, h:150, gap:22 }; FINAL.x0=(1080-(4*FINAL.w+3*FINAL.gap))/2; FINAL.y0=640;
+function r3(u){
+  fadeUp($('s3k'),P(u,.2,.6),14);
+  const hp = P(u,.4,.8); $('s3h').style.opacity=hp; $('s3h').style.transform=`translateY(${(1-eo(hp))*40}px) scale(${.92+.08*eo(hp)})`; $('s3h').style.transformOrigin='left bottom';
+  fadeUp($('s3cnt'),P(u,.9,.7),20);
+  fadeUp($('s3b1'),P(u,1.3,.8),0); fadeUp($('s3b2'),P(u,2.6,.8),0);
+  // text block fades out of the way once tiles regroup
+  let dropped = 0, k=0;
+  const regroup = eio(P(u,6.8,1.2));
+  t3.forEach((d,i)=>{
+    const m = metrics[i], ci = 3.2 + i*.08, p = P(u,ci,.45);
+    if(!m.keep){
+      if(u>=ci+.15) dropped++;
+      d.style.opacity = .28*(1-p);
+      d.style.transform = `translateY(${eo(p)*40}px) rotate(${(i%2?1:-1)*eo(p)*8}deg)`;
+      d.style.filter='grayscale(1)';
+    } else {
+      const kk = k++, c = kk%4, row = Math.floor(kk/4);
+      const pulse = Math.sin(clamp(p)*Math.PI)*.12;
+      const fx = FINAL.x0 + c*(FINAL.w+FINAL.gap), fy = FINAL.y0 + row*(FINAL.h+FINAL.gap);
+      d.style.left = lerp(d._x,fx,regroup)+'px'; d.style.top = lerp(d._y,fy,regroup)+'px';
+      d.style.width = lerp(TW,FINAL.w,regroup)+'px'; d.style.height = lerp(TH,FINAL.h,regroup)+'px';
+      d.style.fontSize = lerp(13,21,regroup)+'px';
+      d.style.opacity = .28 + .72*p;
+      d.style.filter = `grayscale(${1-p})`;
+      d.style.transform = `scale(${1+pulse})`;
+      d.style.borderColor = `rgba(227,163,62,${p})`;
+      d.style.background = `rgba(255,255,255,${.07+.06*p})`;
+      d.querySelector('.td').style.opacity = P(u,8.0+kk*.08,.5);
+    }
+  });
+  $('s3num').textContent = 40 - dropped;
+}
+
+/* ---------- scene 4 · north star ---------- */
+const NS = { cx:540, cy:590, R:250, r:80, rc:94 };
+const ang = [-90,-30,30,90,150,210].map(a=>a*Math.PI/180);
+const nodes = ang.map((a,i)=>({ x:NS.cx+NS.R*Math.cos(a), y:NS.cy+NS.R*Math.sin(a),
+  label: i<3 ? `Input ${i+1}` : 'Lagging', lead: i<3 }));
+// ordering matches slide: Input1 top, Input2 upper-right, Input3 lower-right, Lagging bottom, lower-left, upper-left
+const svgNS='http://www.w3.org/2000/svg';
+const svg=$('s4svg');
+const mk=(tag,attrs,parent=svg)=>{ const e=document.createElementNS(svgNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); parent.appendChild(e); return e; };
+const gWeb=mk('g',{}), gSpoke=mk('g',{}), gDots=mk('g',{}), gNodes=mk('g',{});
+const web=[]; for(let i=0;i<6;i++) for(let j=i+1;j<6;j++){ if(j-i===3) continue; web.push(mk('line',{x1:nodes[i].x,y1:nodes[i].y,x2:nodes[j].x,y2:nodes[j].y,stroke:'#c9cfc8','stroke-width':1.6},gWeb)); }
+const spokes = nodes.map(n=>{ const len=Math.hypot(n.x-NS.cx,n.y-NS.cy); return mk('line',{x1:NS.cx,y1:NS.cy,x2:n.x,y2:n.y,stroke:'#5b8597','stroke-width':2.4,'stroke-dasharray':len,'stroke-dashoffset':len},gSpoke); });
+const glow = mk('circle',{cx:NS.cx,cy:NS.cy,r:NS.rc,fill:'none',stroke:'#e3a33e','stroke-width':3,opacity:0},gNodes);
+const nodeEls = nodes.map(n=>{ const g=mk('g',{},gNodes); mk('circle',{cx:0,cy:0,r:NS.r,fill:n.lead?'#15607c':'#e3a33e'},g);
+  const t=mk('text',{x:0,y:8,'text-anchor':'middle','font-family':'Inter','font-weight':600,'font-size':24,fill:n.lead?'#fff':'#10202a'},g); t.textContent=n.label; return g; });
+const center = mk('g',{},gNodes); mk('circle',{cx:0,cy:0,r:NS.rc,fill:'#10202a'},center);
+[['North',-6],['Star',26]].forEach(([s,y])=>{ const t=mk('text',{x:0,y,'text-anchor':'middle','font-family':'Inter','font-weight':600,'font-size':26,fill:'#fff'},center); t.textContent=s; });
+const dots = nodes.map((n,i)=>[0,1].map(()=>mk('circle',{r:8,fill:n.lead?'#15607c':'#e3a33e',stroke:'#f3efe3','stroke-width':3,opacity:0},gDots)));
+const popT=[1.3,1.6,1.9,2.6,2.9,3.2];
+function r4(u){
+  fadeUp($('s4k'),P(u,.2,.6),14);
+  const cp=back(P(u,.4,.6)); center.setAttribute('transform',`translate(${NS.cx},${NS.cy}) scale(${cp})`);
+  spokes.forEach((s,i)=>{ const len=+s.getAttribute('stroke-dasharray'); s.setAttribute('stroke-dashoffset',len*(1-eio(P(u,popT[i]-.5,.7)))); });
+  nodeEls.forEach((g,i)=>{ const n=nodes[i], p=back(P(u,popT[i],.55)); g.setAttribute('transform',`translate(${n.x},${n.y}) scale(${Math.max(0,p)})`); });
+  web.forEach(l=>l.setAttribute('opacity',P(u,3.5,.8)));
+  // signal flow: inputs → north star → lagging
+  let arrive=0;
+  dots.forEach((pair,i)=>pair.forEach((d,j)=>{
+    const start=4.2, per=1.8, off=(i%3)*.35 + j*per/2;
+    if(u<start){ d.setAttribute('opacity',0); return; }
+    const ph=((u-start-off)%per+per)%per/per; if(u-start-off<0){ d.setAttribute('opacity',0); return; }
+    const n=nodes[i], dx=NS.cx-n.x, dy=NS.cy-n.y, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L;
+    const a=NS.r+6, b=L-NS.rc-6;            // from node edge to center edge
+    let s = nodes[i].lead ? lerp(a,b,eio(ph)) : lerp(b,a,eio(ph));
+    d.setAttribute('cx',n.x+ux*s); d.setAttribute('cy',n.y+uy*s);
+    d.setAttribute('opacity',Math.sin(ph*Math.PI)*1.2);
+    if(nodes[i].lead) arrive=Math.max(arrive, Math.max(0,1-Math.abs(ph-1)*8));
+  }));
+  glow.setAttribute('opacity',arrive*.9*P(u,4.2,.5)); glow.setAttribute('r',NS.rc+4+arrive*10);
+  fadeUp($('s4leg'),P(u,4.0,.6),14);
+  fadeUp($('s4c1'),P(u,5.2,.7),18); fadeUp($('s4c2'),P(u,7.0,.7),18);
+  // momentary emphasis: "entirely lagging" highlights the lagging nodes
+  const em = Math.sin(clamp(P(u,5.4,1.4))*Math.PI);
+  nodeEls.forEach((g,i)=>{ g.style.opacity = nodes[i].lead ? 1-em*.6 : 1; });
+}
+
+/* ---------- scenes 5/6 · typed prompt ---------- */
+const P1 = [['w','Act as a performance measurement expert. Design a\nKPI dashboard for '],['g','[function / initiative]'],['w',' using\nthe Balanced Scorecard structure: financial,\ncustomer, process, learning and growth.\n\n'],
+  ['c','Rules:\n— Maximum 8 metrics total\n— Each classified as leading or lagging\n— Each has a target, an amber threshold,\n  and a red alarm\n— Each maps to a decision it triggers.\n  No metric without a decision.']];
+const P2 = [['w','Also define our North Star metric — the ONE number\nthat best represents whether we are winning — and\nthe three input metrics that move it.\n\n'],
+  ['c','Ask me first:\n— Who is the primary audience: operator, exec,\n  or board?\n— What decisions must this dashboard inform?\n— What data can we get weekly vs monthly\n  vs quarterly?\n\n'],['w','If a metric has no decision attached, drop it\nand tell me why.']];
+const COL = { w:'#eef3f5', g:'#e3a33e', c:'#8fbccb' };
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function typed(segs,n,blink){
+  let out='', left=n;
+  for(const [c,t] of segs){ if(left<=0) break; const s=t.slice(0,left); left-=s.length; out+=`<span style="color:${COL[c]}">${esc(s)}</span>`; }
+  return out + `<span style="display:inline-block;width:.6em;height:1.1em;vertical-align:-.2em;background:#e3a33e;opacity:${blink}"></span>`;
+}
+const len = segs => segs.reduce((a,[,t])=>a+t.length,0);
+function rPrompt(u,segs,k,t,f){
+  fadeUp($(k),P(u,.2,.6),14);
+  const cps=62, n=Math.floor(Math.max(0,u-.8)*cps), done=n>=len(segs);
+  const blink = done ? (Math.floor(u*2)%2 ? 0 : 1) : 1;
+  $(t).innerHTML = typed(segs,n,blink);
+  fadeUp($(f),P(u,(len(segs)/cps)+1.2,.8),10);
+}
+
+/* ---------- scene 7 · decision dashboard ---------- */
+const DASH = [
+  ['Pipeline coverage','lead','3.4×',.78,'g','Add SDR capacity'],
+  ['Activation rate','lead','41%',.52,'a','Fix onboarding step 3'],
+  ['Cycle time','lead','6.1d',.70,'g','Unblock approvals'],
+  ['Skill coverage','lead','82%',.74,'g','Fund training'],
+  ['Revenue retention','lag','94%',.18,'r','Trigger churn review'],
+  ['Gross margin','lag','61%',.66,'g','Revisit pricing'],
+  ['CAC payback','lag','14mo',.45,'a','Shift channel spend'],
+  ['On-time delivery','lag','96%',.84,'g','Escalate supplier'],
+];
+const STC = { g:'#3fb37a', a:'#e3a33e', r:'#d9534f' };
+const dashEls = DASH.map((d,i)=>{
+  const e=document.createElement('div'); e.className='k';
+  const c=i%4, row=Math.floor(i/4); e.style.left=(c*(197+16))+'px'; e.style.top=(row*(262+16))+'px';
+  e.innerHTML=`<div class="dot"></div><div class="kn">${d[0]}</div><span class="tag ${d[1]}">${d[1]==='lead'?'LEADING':'LAGGING'}</span>
+    <div class="kv">${d[2]}</div><div class="barw"><div class="bar"><i style="width:30%;background:#f1c9c7"></i><i style="width:25%;background:#f6e2bd"></i><i style="width:45%;background:#cfead9"></i></div><div class="mk"></div></div>
+    <div class="dec">→ ${d[5]}</div>`;
+  $('s7grid').appendChild(e); return e;
+});
+function r7(u){
+  fadeUp($('s7k'),P(u,.2,.6),14); fadeUp($('s7h'),P(u,.4,.8),24); fadeUp($('s7b'),P(u,1.0,.8),20);
+  fadeUp($('s7card'),P(u,1.5,.8),50);
+  const nsp=eio(P(u,2.0,1.4)); $('s7nsv').textContent=Math.round(1284*nsp).toLocaleString('en-US'); $('s7nsd').style.opacity=P(u,3.2,.4);
+  dashEls.forEach((e,i)=>{
+    const d=DASH[i], st=2.2+i*.12, p=P(u,st,.5);
+    fadeUp(e,p,20);
+    const mp=eio(P(u,st+.3,1.0)); e.querySelector('.mk').style.left=`calc(${d[3]*mp*100}% - 2px)`;
+    const dot=e.querySelector('.dot'), on=P(u,st+1.2,.3);
+    dot.style.background = on>0 ? STC[d[4]] : '#ccc';
+    const dec=e.querySelector('.dec'); dec.style.opacity=P(u,st+1.4,.4);
+    if(d[4]==='r'){ const pul=u>st+1.5 ? (Math.sin((u-st)*5)+1)/2 : 0;
+      dot.style.boxShadow=`0 0 0 ${4+pul*8}px rgba(217,83,79,${.35*(1-pul)})`;
+      e.style.borderColor = on? '#e7a3a1':'#e7e2d4'; dec.style.color = on? '#c0392b':'#5a6a72'; dec.style.fontWeight = on? 600:500; }
+  });
+}
+
+/* ---------- scene 8 · CTA ---------- */
+$('s8q').innerHTML = 'How many metrics are on your dashboard — and how many changed a *decision last quarter?'
+  .split(' ').map(w=>w[0]==='*' ? `<span class="w" style="color:var(--gold);font-style:italic">${w.slice(1)}</span>` : `<span class="w">${w}</span>`).join(' ');
+const s8w=[...$('s8q').querySelectorAll('.w')];
+function r8(u){
+  s8w.forEach((w,i)=>fadeUp(w,P(u,.3+i*.1,.6),30));
+  const qp=P(u,2.6,.8); $('s8quote').style.opacity=qp; $('s8quote').style.transform=`translateX(${(1-eo(qp))*-30}px)`;
+  $('s8line').style.transform=`scaleX(${eio(P(u,3.6,1))})`;
+  fadeUp($('s8n'),P(u,4.0,.7),16); fadeUp($('s8t'),P(u,4.3,.7),16); fadeUp($('s8p'),P(u,4.6,.7),10);
+}
+
+/* ---------- render ---------- */
+const R = { s1:r1, s2:r2, s3:r3, s4:r4, s5:u=>rPrompt(u,P1,'s5k','s5t','s5f'), s6:u=>rPrompt(u,P2,'s6k','s6t','s6f'), s7:r7, s8:r8 };
+function renderAt(t){
+  ORDER.forEach((id,i)=>{
+    const st=S[id], next=i<ORDER.length-1 ? S[ORDER[i+1]] : Infinity, el=$(id);
+    const vis = t>=st && t<next+FADE;
+    el.style.display = vis ? 'block':'none';
+    if(!vis) return;
+    el.style.opacity = i===0 ? 1 : eio(P(t,st,FADE));
+    R[id](t-st);
+  });
+}
+window.renderAt = renderAt; window.DURATION = DURATION;
+
+/* ---------- player ---------- */
+const capture = new URLSearchParams(location.search).has('capture');
+if(capture) document.body.classList.add('capture');
+function fit(){ if(capture) return; const s=Math.min(innerWidth/1080,(innerHeight-60)/1350); $('wrap').style.transform=`translate(-50%,calc(-50% - 26px)) scale(${s})`; }
+addEventListener('resize',fit); fit();
+let t=0, playing=!capture, last=null;
+function tick(ts){
+  if(last!==null && playing){ t+=(ts-last)/1000; if(t>DURATION){ t=0; } }
+  last=ts; renderAt(t);
+  $('scrub').value = t/DURATION*1000; $('time').textContent = t.toFixed(1)+'s / '+DURATION+'s';
+  requestAnimationFrame(tick);
+}
+if(!capture){
+  $('play').onclick=()=>{ playing=!playing; $('play').textContent=playing?'❚❚':'▶'; };
+  $('restart').onclick=()=>{ t=0; playing=true; $('play').textContent='❚❚'; };
+  $('scrub').oninput=e=>{ t=e.target.value/1000*DURATION; };
+  addEventListener('keydown',e=>{ if(e.code==='Space'){ e.preventDefault(); $('play').click(); } });
+  document.fonts.ready.then(()=>requestAnimationFrame(tick));
+} else {
+  renderAt(0);
+}
+</script>
+</body>
+</html>
